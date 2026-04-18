@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { formatCurrency, formatNumber, formatCompactNumber } from '../utils/calculations';
+import { formatCurrency, formatCompactNumber } from '../utils/calculations';
 
 const HoldingsTable = ({ holdings, selectedCoins, onToggleSelect, onSelectAll }) => {
 
   const [sortKey, setSortKey] = useState(null);
   const [order, setOrder] = useState("asc");
 
-  const allSelected = holdings.length > 0 && selectedCoins.length === holdings.length;
-
+  
   const handleSort = (key) => {
     if (sortKey === key) {
       setOrder(order === "asc" ? "desc" : "asc");
@@ -17,6 +16,7 @@ const HoldingsTable = ({ holdings, selectedCoins, onToggleSelect, onSelectAll })
     }
   };
 
+  
   const sortedHoldings = [...holdings].sort((a, b) => {
     if (!sortKey) return 0;
 
@@ -26,17 +26,20 @@ const HoldingsTable = ({ holdings, selectedCoins, onToggleSelect, onSelectAll })
     return order === "asc" ? valA - valB : valB - valA;
   });
 
+
   const handleHeaderClick = () => {
     if (selectedCoins.length > 0) {
-      onSelectAll([]); // ❌ remove all selected
+      onSelectAll([]); // remove all
     } else {
-      onSelectAll(sortedHoldings.map(h => h.coin)); // ✅ select all
+      onSelectAll(sortedHoldings.map(h => h.coin)); // select all
     }
   };
 
   return (
     <div className="holdings-table-container">
       <table className="holdings-table">
+
+        {/* ================= HEADER ================= */}
         <thead>
           <tr>
             <th onClick={handleHeaderClick} style={{ cursor: "pointer" }}>
@@ -48,17 +51,18 @@ const HoldingsTable = ({ holdings, selectedCoins, onToggleSelect, onSelectAll })
             <th>Current Price</th>
 
             <th onClick={() => handleSort("stcg")} style={{ cursor: "pointer" }}>
-              Short-Term {sortKey === "stcg" ? (order === "asc" ? "↑" : "↓") : ""}
+              STCG {sortKey === "stcg" ? (order === "asc" ? "↑" : "↓") : ""}
             </th>
 
             <th onClick={() => handleSort("ltcg")} style={{ cursor: "pointer" }}>
-              Long-Term {sortKey === "ltcg" ? (order === "asc" ? "↑" : "↓") : ""}
+              LTCG {sortKey === "ltcg" ? (order === "asc" ? "↑" : "↓") : ""}
             </th>
 
             <th>Amount to Sell</th>
           </tr>
         </thead>
 
+        {/* ================= BODY ================= */}
         <tbody>
           {sortedHoldings.map((holding, index) => {
             const isSelected = selectedCoins.includes(holding.coin);
@@ -66,6 +70,7 @@ const HoldingsTable = ({ holdings, selectedCoins, onToggleSelect, onSelectAll })
             return (
               <tr key={index} className={isSelected ? 'selected' : ''}>
 
+                {/*  Checkbox */}
                 <td>
                   <input
                     type="checkbox"
@@ -74,10 +79,18 @@ const HoldingsTable = ({ holdings, selectedCoins, onToggleSelect, onSelectAll })
                   />
                 </td>
 
-                {/* ✅ ASSET */}
+                {/* Asset (Logo + Name + Symbol) */}
                 <td>
                   <div className="asset-info">
-                    <img src={holding.logo} alt="" className="coin-logo" />
+                    <img
+                      src={holding.logo}
+                      alt={holding.coinName}
+                      className="coin-logo"
+                      onError={(e) => {
+                        e.target.src =
+                          "https://koinx-statics.s3.ap-south-1.amazonaws.com/currencies/DefaultCoin.svg";
+                      }}
+                    />
                     <div>
                       <div>{holding.coinName}</div>
                       <div style={{ fontSize: "12px", color: "#8b949e" }}>
@@ -87,7 +100,7 @@ const HoldingsTable = ({ holdings, selectedCoins, onToggleSelect, onSelectAll })
                   </div>
                 </td>
 
-                {/* ✅ HOLDINGS + AVG PRICE */}
+                {/*  Holdings + Avg Buy Price */}
                 <td title={holding.totalHolding}>
                   <div>{formatCompactNumber(holding.totalHolding)}</div>
                   <div style={{ fontSize: "12px", color: "#8b949e" }}>
@@ -95,12 +108,12 @@ const HoldingsTable = ({ holdings, selectedCoins, onToggleSelect, onSelectAll })
                   </div>
                 </td>
 
-                {/* ✅ CURRENT PRICE */}
+                {/*  Current Price */}
                 <td title={holding.currentPrice}>
                   {formatCurrency(holding.currentPrice)}
                 </td>
 
-                {/* ✅ STCG */}
+                {/*  STCG */}
                 <td
                   title={holding.stcg.gain}
                   className={holding.stcg.gain >= 0 ? 'gain-positive' : 'gain-negative'}
@@ -108,7 +121,7 @@ const HoldingsTable = ({ holdings, selectedCoins, onToggleSelect, onSelectAll })
                   {formatCompactNumber(holding.stcg.gain)}
                 </td>
 
-                {/* ✅ LTCG */}
+                {/*  LTCG */}
                 <td
                   title={holding.ltcg.gain}
                   className={holding.ltcg.gain >= 0 ? 'gain-positive' : 'gain-negative'}
@@ -116,7 +129,7 @@ const HoldingsTable = ({ holdings, selectedCoins, onToggleSelect, onSelectAll })
                   {formatCompactNumber(holding.ltcg.gain)}
                 </td>
 
-                {/* ✅ AMOUNT */}
+                {/*  Amount to Sell */}
                 <td>
                   {isSelected ? formatCompactNumber(holding.totalHolding) : '-'}
                 </td>
@@ -125,6 +138,7 @@ const HoldingsTable = ({ holdings, selectedCoins, onToggleSelect, onSelectAll })
             );
           })}
         </tbody>
+
       </table>
     </div>
   );
