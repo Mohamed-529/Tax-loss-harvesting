@@ -19,20 +19,7 @@ A React-based tax loss harvesting interface that helps users optimize their cryp
 - **Plain CSS** - Custom styling without frameworks
 - **Mock APIs** - Simulated async API calls with promises
 
-## Project Structure
 
-```
-src/
-├── api/
-│   └── mockApi.js          # Mock API data and fetch functions
-├── components/
-│   ├── CapitalGainsCard.js # Pre/Post harvesting display cards
-│   └── HoldingsTable.js    # Selectable holdings table
-├── utils/
-│   └── calculations.js     # Tax calculation utilities
-├── App.js                  # Main application component
-├── App.css                 # Application styles
-└── index.js                # Entry point
 ```
 
 ## Setup Instructions
@@ -93,10 +80,10 @@ npm run build
 
 ## Submission Details
 
-- **Candidate**: [Your Name]
-- **Email**: [Your Email]
-- **GitHub**: [Your GitHub Username]
-- **Deployed URL**: [Vercel/Netlify Link]
+- **Candidate**: A Mohamed Yusuff
+- **Email**: yusuff.a968@gmail.com
+- **GitHub**: https://github.com/Mohamed-529/Tax-loss-harvesting
+- **Deployed URL**: https://tax-loss-harvesting-gules.vercel.app
 
 ---
 
