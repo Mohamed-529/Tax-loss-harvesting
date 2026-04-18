@@ -42,7 +42,7 @@ function App() {
     setSelectedCoins(coins);
   };
 
-  // ✅ UPDATED GAINS (MAIN LOGIC)
+  //  UPDATED GAINS (MAIN LOGIC)
   const updatedGains = baseGains
     ? calculateUpdatedGains(
         baseGains,
@@ -50,7 +50,7 @@ function App() {
       )
     : null;
 
-  // ✅ PRE VALUE
+  //  PRE VALUE
   const pre = baseGains
     ? calculateRealisedGains(
         calculateNetGain(baseGains.stcg.profits, baseGains.stcg.losses),
@@ -58,7 +58,7 @@ function App() {
       )
     : 0;
 
-  // ✅ POST VALUE
+  //  POST VALUE
   const post = updatedGains
     ? calculateRealisedGains(
         calculateNetGain(updatedGains.stcg.profits, updatedGains.stcg.losses),
@@ -113,14 +113,14 @@ function App() {
       {/* CARDS */}
       <div className="cards-container">
 
-        {/* ✅ PRE */}
+        {/*  PRE */}
         <CapitalGainsCard
           title="Pre-Harvesting"
           gains={baseGains}
           isDark
         />
 
-        {/* ✅ AFTER (IMPORTANT FIX) */}
+        {/*  AFTER (IMPORTANT FIX) */}
         <CapitalGainsCard
           title="After Harvesting"
           gains={updatedGains || baseGains}
