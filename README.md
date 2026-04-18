@@ -1,70 +1,103 @@
-# Getting Started with Create React App
+# KoinX - Tax Loss Harvesting Tool
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React-based tax loss harvesting interface that helps users optimize their crypto tax liability by visualizing capital gains before and after selecting holdings to harvest.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Pre-Harvesting Card**: Displays current capital gains (short-term and long-term) with profits, losses, and net realised gains
+- **After Harvesting Card**: Dynamically updates based on selected holdings, showing potential tax savings
+- **Holdings Table**: Interactive table with selectable rows to simulate harvesting different assets
+- **Real-time Calculations**: Instant updates to capital gains as you select/deselect holdings
+- **Savings Indicator**: Shows how much you'll save in taxes when post-harvest gains are lower
+- **Responsive Design**: Works on desktop and mobile devices
+- **Loading & Error States**: Proper handling of async data loading
+- **Select All/Deselect All**: Bulk selection functionality in table header
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **React** (v18+) - Frontend framework
+- **Plain CSS** - Custom styling without frameworks
+- **Mock APIs** - Simulated async API calls with promises
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Project Structure
 
-### `npm test`
+```
+src/
+├── api/
+│   └── mockApi.js          # Mock API data and fetch functions
+├── components/
+│   ├── CapitalGainsCard.js # Pre/Post harvesting display cards
+│   └── HoldingsTable.js    # Selectable holdings table
+├── utils/
+│   └── calculations.js     # Tax calculation utilities
+├── App.js                  # Main application component
+├── App.css                 # Application styles
+└── index.js                # Entry point
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Setup Instructions
 
-### `npm run build`
+1. **Clone the repository**
+   ```bash
+   git clone <your-repo-url>
+   cd tax-loss-harvesting
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+3. **Start the development server**
+   ```bash
+   npm start
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+4. **Open browser**
+   Navigate to `http://localhost:3000`
 
-### `npm run eject`
+## Build for Production
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+npm run build
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## How It Works
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Tax Loss Harvesting Logic
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. **Initial State**: Fetches capital gains data showing current STCG (Short-Term Capital Gains) and LTCG (Long-Term Capital Gains)
 
-## Learn More
+2. **Selection Impact**: When you select a holding:
+   - If gain is positive → adds to profits (realizing that gain)
+   - If gain is negative → adds to losses (harvesting that loss)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. **Calculations**:
+   ```
+   Net STCG = STCG Profits - STCG Losses
+   Net LTCG = LTCG Profits - LTCG Losses
+   Realised Gains = Net STCG + Net LTCG
+   ```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+4. **Savings Display**: Shows savings message only when:
+   ```
+   Pre-Harvest Realised Gains > Post-Harvest Realised Gains
+   ```
 
-### Code Splitting
+## Assumptions
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+1. Holdings are sorted in their original API order
+2. All holdings are treated as INR-denominated for currency formatting
+3. The mock API delay is set to 500ms to simulate real network conditions
+4. Checkbox selection uses the `coin` symbol as unique identifier
 
-### Analyzing the Bundle Size
+## Submission Details
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- **Candidate**: [Your Name]
+- **Email**: [Your Email]
+- **GitHub**: [Your GitHub Username]
+- **Deployed URL**: [Vercel/Netlify Link]
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Built for KoinX Frontend Internship Assignment
